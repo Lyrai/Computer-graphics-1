@@ -121,24 +121,19 @@ void ExpressionParser::term()
     factor();
     CHECK_ERROR
 
-    if(position >= tokens.size() || tokens[position].type != TokenType::Operation) {
-        return;
-    }
+    while(position < tokens.size() && (tokens[position].value.toChar() == '+' || tokens[position].value.toChar() == '-')){
+        Operation operation;
+        if(tokens[position].value.toChar() == '+') {
+            operation = Operation::Plus;
+        } else if(tokens[position].value.toChar() == '-') {
+            operation = Operation::Minus;
+        }
 
-    Operation operation;
-    if(tokens[position].value.toChar() == '*') {
-        operation = Operation::Multiply;
         ++position;
-    } else if(tokens[position].value.toChar() == '/') {
-        operation = Operation::Divide;
-        ++position;
-    } else {
-        return;
+        factor();
+
+        operations.push_back(operation);
     }
-
-    factor();
-
-    operations.push_back(operation);
 }
 
 void ExpressionParser::factor()
@@ -146,24 +141,20 @@ void ExpressionParser::factor()
     power();
     CHECK_ERROR
 
-    if(position >= tokens.size() || tokens[position].type != TokenType::Operation) {
-        return;
-    }
 
-    Operation operation;
-    if(tokens[position].value.toChar() == '+') {
-        operation = Operation::Plus;
+    while(position < tokens.size() && (tokens[position].value.toChar() == '*' || tokens[position].value.toChar() == '/')){
+        Operation operation;
+        if(tokens[position].value.toChar() == '*') {
+            operation = Operation::Multiply;
+        } else if(tokens[position].value.toChar() == '/') {
+            operation = Operation::Divide;
+        }
+
         ++position;
-    } else if(tokens[position].value.toChar() == '-') {
-        operation = Operation::Minus;
-        ++position;
-    } else {
-        return;
+        power();
+
+        operations.push_back(operation);
     }
-
-    power();
-
-    operations.push_back(operation);
 }
 
 void ExpressionParser::power()
@@ -175,17 +166,13 @@ void ExpressionParser::power()
         return;
     }
 
-    Operation operation;
-    if(tokens[position].value.toChar() == '^') {
-        operation = Operation::Power;
+    while(position < tokens.size() && tokens[position].value.toChar() == '^'){
+        Operation operation = Operation::Power;
         ++position;
-    } else {
-        return;
+        primary();
+
+        operations.push_back(operation);
     }
-
-    primary();
-
-    operations.push_back(operation);
 }
 
 void ExpressionParser::primary()
