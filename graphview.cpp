@@ -25,7 +25,7 @@ void GraphView::resizeEvent(QResizeEvent *event)
 void GraphView::paintEvent(QPaintEvent *event)
 {
     scene()->clear();
-    pixelsPerStep = size().width() / 100 - 4;
+    pixelsPerStep = size().width() / 100 - 3;
     if(pixelsPerStep < 1) {
         pixelsPerStep = 1;
     }
@@ -150,7 +150,6 @@ void GraphView::drawHorizontalLine(int y)
 {
     QPen pen;
     pen.setWidth(2);
-
     auto line = scene()->addLine(leftMargin, y, size().width() - rightMargin, y, pen);
     line->setOpacity(0.4);
     auto yPosPixels = line->boundingRect().y() - topMargin + 1;
@@ -168,7 +167,6 @@ void GraphView::drawVerticalLine(int x)
 {
     QPen pen;
     pen.setWidth(2);
-
     auto line = scene()->addLine(x, 0, x, marginedHeight(), pen);
     line->setOpacity(0.4);
     auto xPosPixels = line->boundingRect().x() - leftMargin + 1;

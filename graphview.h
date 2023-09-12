@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <functional>
+#include <QMap>
 #include "expressionparser.h"
 
 class GraphView : public QGraphicsView
