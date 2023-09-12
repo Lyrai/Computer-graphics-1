@@ -84,7 +84,6 @@ void GraphView::paintEvent(QPaintEvent *event)
 QVector<QPointF> GraphView::calculate()
 {
     if(!expr.isValid()) {
-        qDebug() << "Invalid";
         return {};
     }
     QVector<QPointF> result;
@@ -150,7 +149,6 @@ void GraphView::drawGrid()
 void GraphView::drawHorizontalLine(int y)
 {
     QPen pen;
-    pen.setColor(QColor("gray"));
     pen.setWidth(2);
 
     auto line = scene()->addLine(leftMargin, y, size().width() - rightMargin, y, pen);
@@ -169,7 +167,6 @@ void GraphView::drawHorizontalLine(int y)
 void GraphView::drawVerticalLine(int x)
 {
     QPen pen;
-    pen.setColor(QColor("gray"));
     pen.setWidth(2);
 
     auto line = scene()->addLine(x, 0, x, marginedHeight(), pen);

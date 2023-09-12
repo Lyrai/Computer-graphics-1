@@ -37,16 +37,14 @@ void ExpressionParser::lex(const QString &str)
 
             if(pos < str.size() && str[pos] == '.') {
                 ++pos;
-                if(pos < str.size() && str[pos].isDigit()) {
-                    double fraction = 0;
-                    while(str[pos].isDigit()) {
-                        fraction /= 10;
-                        fraction += str[pos].digitValue() / 10;
-                        ++pos;
-                    }
-
-                    value += fraction;
+                double fraction = 0;
+                while(pos < str.size() && str[pos].isDigit()) {
+                    fraction /= 10;
+                    fraction += str[pos].digitValue() / 10.0;
+                    ++pos;
                 }
+
+                value += fraction;
             }
 
             tokens.push_back(Token { TokenType::Const, value });
@@ -213,6 +211,9 @@ void ExpressionParser::primary()
         } else {
             error();
         }
+    } else if(tokens[position].type == TokenType::Lpar) {
+        expression();
+        CHECK_ERROR
     } else {
         error();
     }
@@ -273,10 +274,6 @@ double Expression::evaluate(double x)
                 break;
 
         }
-    }
-
-    if(stack.size() != 1) {
-        printf("Stack size larger than expected");
     }
 
     return stack.pop();
