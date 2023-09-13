@@ -23,11 +23,10 @@ public:
 
     // QWidget interface
 protected:
-    void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    QVector<QPointF> calculate();
+    void calculate();
     QPointF mapFromScreen(int x, int y);
     QPoint mapToScreen(QPointF point);
     void drawLine(QPoint start, QPoint end);
@@ -47,9 +46,10 @@ private:
     int pixelsPerStep = 1;
     int topMargin = 0;
     int leftMargin = 0;
-    int rightMargin = 30;
-    int bottomMargin = 30;
+    static constexpr int rightMargin = 30;
+    static constexpr int bottomMargin = 30;
     Expression expr;
+    QVector<QPointF> points;
 };
 
 #endif // GRAPHVIEW_H
