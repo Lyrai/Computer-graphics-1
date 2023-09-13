@@ -63,10 +63,10 @@ void GraphView::paintEvent(QPaintEvent *event)
 
 void GraphView::calculate()
 {
+    points.resize(0);
     if(!expr.isValid()) {
         return;
     }
-    points.resize(0);
     top = std::numeric_limits<double>::infinity();
     bottom = -std::numeric_limits<double>::infinity();
     auto steps = mapFromScreen(marginedWidth(), size().height());
